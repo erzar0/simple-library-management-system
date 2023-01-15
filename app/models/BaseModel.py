@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, text
-from local_settings import postgresql as settings
+from .db_settings import postgresql as settings
 from abc import ABC, abstractmethod
 
 def get_pg_connection_string(settings):
@@ -19,7 +19,7 @@ class BaseModel(ABC):
     
     def getAll(self):
         with self.engine.connect() as conn:
-            return conn.execute(f"select * from {self.schema}.{self.tableName}")
+            return conn.execute(text(f"select * from {self.schema}.{self.tableName}"))
     
     @abstractmethod
     def add(self, recordData):
