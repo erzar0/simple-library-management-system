@@ -1,4 +1,4 @@
-INSERT INTO librarian (id_person, id_supervisor, salary, job_position) VALUES
+INSERT INTO library.librarian (id_person, id_supervisor, salary, job_position) VALUES
 (1,  null, 5000, 'Head Librarian'),
 (3,  1, 4500, 'Senior Librarian'),
 (9,  1, 4300, 'Senior Librarian'),
@@ -8,7 +8,7 @@ INSERT INTO librarian (id_person, id_supervisor, salary, job_position) VALUES
 (24, 3, 4500, 'Librarian'),
 (18, 4, 4500, 'Librarian'),
 (27, 5, 4300, 'Librarian'),
-(30, 2, 4500, 'Librarian');
+(30, 2, 4500, 'Librarian'),
 (4,  3, 4200, 'Librarian'),
 (7,  4, 4200, 'Librarian'),
 (10, 5, 4000, 'Librarian'),
@@ -28,4 +28,4 @@ INSERT INTO librarian (id_person, id_supervisor, salary, job_position) VALUES
 (23, 13, 3700, 'Library Assistant'),
 (26, 14, 3800, 'Library Assistant'),
 (29, 15, 3700, 'Library Assistant'),
-(5,  16, 3900, 'Library Assistant'),
+(5,  16, 3900, 'Library Assistant');

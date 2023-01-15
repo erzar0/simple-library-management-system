@@ -1,4 +1,4 @@
-INSERT INTO lib.books(genre) VALUES
+INSERT INTO library.genre(name) VALUES
 ('Mystery'),
 ('Romance'),
 ('Science Fiction'),
@@ -78,4 +78,4 @@ INSERT INTO lib.books(genre) VALUES
 ('Religious Studies'),
 ('Women''s Studies'),
 ('African American Studies'),
-('Asian Studies'),
+('Asian Studies');
