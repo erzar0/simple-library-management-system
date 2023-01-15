@@ -21,6 +21,11 @@ class BaseModel(ABC):
         with self.engine.connect() as conn:
             return conn.execute(text(f"select * from {self.schema}.{self.tableName}"))
     
+    def getById(self, id):
+        with self.engine.connect() as conn:
+            result = conn.execute(text(f"select * from {self.schema}.{self.tableName} where id = :id"), {"id": id})
+            return result 
+    
     @abstractmethod
     def add(self, recordData):
         pass
