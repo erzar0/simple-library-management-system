@@ -1,5 +1,5 @@
-{%extends 'base.html'%} {% block title %} Add Person {%endblock%} {% block
-main%}
+{%extends 'base.html'%} {% block title %} Zarejestruj Członka {%endblock%} {%
+block main%}
 <h2>
   {% for message in form.first_name.errors%}
   <div>{{message}}</div>
@@ -7,15 +7,15 @@ main%}
   <div>{{message}}</div>
   {%endfor%} {% for message in form.pesel.errors%}
   <div>{{message}}</div>
-  {%endfor%} {% for message in form.birth_date.errors%}
-  <div>{{message}}</div>
   {%endfor%} {% for message in form.email.errors%}
+  <div>{{message}}</div>
+  {%endfor%} {% for message in form.birth_date.errors%}
   <div>{{message}}</div>
   {%endfor%}
 </h2>
-<form action="http://localhost:5000/person" method="post">
+<form action="http://localhost:5000/member/register" method="post">
   <fieldset>
-    <legend>Add Person</legend>
+    <legend>Zarejestruj Członka</legend>
     {{form.hidden_tag()}}
     <div>
       <div>
@@ -31,12 +31,32 @@ main%}
         {{form.pesel}}
       </div>
       <div>
+        {{form.email.label}} <br />
+        {{form.email}}
+      </div>
+      <div>
         {{form.birth_date.label}}<br />
         {{form.birth_date}}
       </div>
       <div>
-        {{form.email.label}} <br />
-        {{form.email}}
+        {{form.city.label}} <br />
+        {{form.city}}
+      </div>
+      <div>
+        {{form.postal_code.label}} <br />
+        {{form.postal_code}}
+      </div>
+      <div>
+        {{form.street.label}} <br />
+        {{form.street}}
+      </div>
+      <div>
+        {{form.house_number.label}} <br />
+        {{form.house_number}}
+      </div>
+      <div>
+        {{form.apartment_number.label}} <br />
+        {{form.apartment_number}}
       </div>
       {{form.submit}}
     </div>
