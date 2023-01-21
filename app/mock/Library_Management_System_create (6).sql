@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-01-14 21:36:56.624
+-- Last modification date: 2023-01-19 11:52:06.571
 
 -- tables
 -- Table: address
@@ -74,17 +74,16 @@ CREATE TABLE library.loan (
     loan_date date  NOT NULL,
     return_date date  NULL,
     due_date date  NOT NULL,
-    is_returned boolean  NOT NULL DEFAULT false,
     CONSTRAINT loan_pk PRIMARY KEY (id)
 );
 
 -- Table: member
 CREATE TABLE library.member (
-   id serial  NOT NULL,
-   id_person int  NOT NULL,
-   join_date date  NOT NULL,
-   expiration_date date  NOT NULL,
-   CONSTRAINT member_pk PRIMARY KEY (id)
+    id serial  NOT NULL,
+    id_person int  NOT NULL,
+    join_date date  NOT NULL,
+    expiration_date date  NOT NULL,
+    CONSTRAINT member_pk PRIMARY KEY (id)
 );
 
 -- Table: payment
@@ -112,106 +111,106 @@ CREATE TABLE library.person (
 );
 
 -- foreign keys
--- Reference: adres_osoba (table: address)
-ALTER TABLE library.address ADD CONSTRAINT adres_osoba
+-- Reference: address__person (table: address)
+ALTER TABLE library.address ADD CONSTRAINT address__person
     FOREIGN KEY (id_person)
     REFERENCES library.person (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: autor_autor_ksiazka (table: book_author)
-ALTER TABLE library.book_author ADD CONSTRAINT autor_autor_ksiazka
+-- Reference: book_author__author (table: book_author)
+ALTER TABLE library.book_author ADD CONSTRAINT book_author__author
     FOREIGN KEY (id_author)
     REFERENCES library.author (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: czlonek_oplata (table: payment)
-ALTER TABLE library.payment ADD CONSTRAINT czlonek_oplata
-    FOREIGN KEY (id_member)
-    REFERENCES library.member (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: czlonek_osoba (table: member)
-ALTER TABLE library.member ADD CONSTRAINT czlonek_osoba
-    FOREIGN KEY (id_person)
-    REFERENCES library.person (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: ksiazka_autor_ksiazka (table: book_author)
-ALTER TABLE library.book_author ADD CONSTRAINT ksiazka_autor_ksiazka
+-- Reference: book_author__book (table: book_author)
+ALTER TABLE library.book_author ADD CONSTRAINT book_author__book
     FOREIGN KEY (id_book)
     REFERENCES library.book (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: ksiazka_gatunek_gatunek (table: book_genre)
-ALTER TABLE library.book_genre ADD CONSTRAINT ksiazka_gatunek_gatunek
+-- Reference: book_genre__book (table: book_genre)
+ALTER TABLE library.book_genre ADD CONSTRAINT book_genre__book
+    FOREIGN KEY (id_book)
+    REFERENCES library.book (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: book_genre__genre (table: book_genre)
+ALTER TABLE library.book_genre ADD CONSTRAINT book_genre__genre
     FOREIGN KEY (id_genre)
     REFERENCES library.genre (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: ksiazka_gatunek_ksiazka (table: book_genre)
-ALTER TABLE library.book_genre ADD CONSTRAINT ksiazka_gatunek_ksiazka
-    FOREIGN KEY (id_book)
-    REFERENCES library.book (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: oplata_pracownik (table: payment)
-ALTER TABLE library.payment ADD CONSTRAINT oplata_pracownik
-    FOREIGN KEY (id_librarian)
-    REFERENCES library.librarian (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: pracownik_osoba (table: librarian)
-ALTER TABLE library.librarian ADD CONSTRAINT pracownik_osoba
-    FOREIGN KEY (id_person)
-    REFERENCES library.person (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: pracownik_pracownik (table: librarian)
-ALTER TABLE library.librarian ADD CONSTRAINT pracownik_pracownik
+-- Reference: librarian__librarian (table: librarian)
+ALTER TABLE library.librarian ADD CONSTRAINT librarian__librarian
     FOREIGN KEY (id_supervisor)
     REFERENCES library.librarian (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: wypozyczenia_czlonek (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT wypozyczenia_czlonek
-    FOREIGN KEY (id_member)
-    REFERENCES library.member (id)  
+-- Reference: librarian__person (table: librarian)
+ALTER TABLE library.librarian ADD CONSTRAINT librarian__person
+    FOREIGN KEY (id_person)
+    REFERENCES library.person (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: wypozyczenie_ksiazka (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT wypozyczenie_ksiazka
+-- Reference: loan__book (table: loan)
+ALTER TABLE library.loan ADD CONSTRAINT loan__book
     FOREIGN KEY (id_book)
     REFERENCES library.book (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: wypozyczenie_pracownik (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT wypozyczenie_pracownik
+-- Reference: loan__librarian (table: loan)
+ALTER TABLE library.loan ADD CONSTRAINT loan__librarian
     FOREIGN KEY (id_librarian)
     REFERENCES library.librarian (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: loan__member (table: loan)
+ALTER TABLE library.loan ADD CONSTRAINT loan__member
+    FOREIGN KEY (id_member)
+    REFERENCES library.member (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: member__person (table: member)
+ALTER TABLE library.member ADD CONSTRAINT member__person
+    FOREIGN KEY (id_person)
+    REFERENCES library.person (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: payment__librarian (table: payment)
+ALTER TABLE library.payment ADD CONSTRAINT payment__librarian
+    FOREIGN KEY (id_librarian)
+    REFERENCES library.librarian (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: payment__member (table: payment)
+ALTER TABLE library.payment ADD CONSTRAINT payment__member
+    FOREIGN KEY (id_member)
+    REFERENCES library.member (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;

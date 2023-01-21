@@ -1,0 +1,4 @@
+{%extends 'base.html'%} {% block title %} Rekordy {%endblock%} {% block main%}
+{%for record in records%}
+<pre>{{record}}</pre>
+{%endfor%} {%endblock%}

@@ -9,7 +9,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./src:/src
+      - ./app:/app
+      - ./db:/var/lib/postgresql
     restart: always
 
   pgadmin:

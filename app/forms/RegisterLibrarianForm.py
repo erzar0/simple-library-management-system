@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, DateField, IntegerField
 from wtforms import validators
 
-class RegisterMemberForm(FlaskForm):
+class RegisterLibrarianForm(FlaskForm):
     first_name      = StringField("Imię",               [validators.input_required()])
     last_name       = StringField("Nazwisko",           [validators.input_required()])
     email           = StringField("Email",              [validators.input_required()
@@ -15,4 +15,7 @@ class RegisterMemberForm(FlaskForm):
     postal_code     = StringField("Kod pocztowy",       [validators.input_required()])
     house_number    = IntegerField("Numer domu",        [validators.input_required()])
     apartment_number= IntegerField("Numer lokalu",      [validators.optional()])
+    job_position    = StringField("Tytuł",              [validators.input_required()])
+    salary          = IntegerField("Pensja",            [validators.input_required()])
+    id_supervisor   = IntegerField("Id przełożonego",   [validators.optional()])
     submit          = SubmitField("Zarejestruj")

@@ -1,8 +1,8 @@
-{%extends 'base.html'%} {% block title %} Zarejestruj Członka {%endblock%} {%
+{%extends 'base.html'%} {% block title %} Zarejestruj Pracownika {%endblock%} {%
 block main%}
-<form action="http://localhost:5000/member/register" method="post">
+<form action="http://localhost:5000/librarian/register" method="post">
   <fieldset>
-    <legend>Zarejestruj Członka</legend>
+    <legend>Zarejestruj Pracownika</legend>
     {{form.hidden_tag()}}
     <fieldset>
       <legend>Osoba</legend>
@@ -63,6 +63,27 @@ block main%}
       <div class="input-container">
         {{form.apartment_number.label}} {{form.apartment_number}}{% for message
         in form.apartment_number.errors%}
+        <div class="validation-message">{{message}}</div>
+        {%endfor%}
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Szczegóły umowy</legend>
+      <div class="input-container">
+        {{form.id_supervisor.label}} {{form.id_supervisor}}{% for message in
+        form.id_supervisor.errors%}
+        <div class="validation-message">{{message}}</div>
+        {%endfor%}
+      </div>
+      <div class="input-container">
+        {{form.salary.label}} {{form.salary}}{% for message in
+        form.salary.errors%}
+        <div class="validation-message">{{message}}</div>
+        {%endfor%}
+      </div>
+      <div class="input-container">
+        {{form.job_position.label}} {{form.job_position}}{% for message in
+        form.job_position.errors%}
         <div class="validation-message">{{message}}</div>
         {%endfor%}
       </div>

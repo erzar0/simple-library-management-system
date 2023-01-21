@@ -1,0 +1,28 @@
+{%extends 'base.html'%} {% block title %} Dodaj autora{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/book/author/add" method="post">
+  <fieldset>
+    <legend>Dodaj autora</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.first_name.label}} {{form.first_name}} {% for message in
+      form.first_name.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.last_name.label}} {{form.last_name}} {% for message in
+      form.last_name.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.nationality.label}} {{form.nationality}} {% for message in
+      form.nationality.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}

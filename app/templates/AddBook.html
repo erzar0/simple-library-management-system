@@ -1,0 +1,55 @@
+{%extends 'base.html'%} {% block title %} Dodaj książkę{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/book/add" method="post">
+  <fieldset>
+    <legend>Dodaj książkę</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.title.label}} {{form.title}} {% for message in form.title.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.language.label}} {{form.language}} {% for message in
+      form.language.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.publication_date.label}} {{form.publication_date}} {% for message
+      in form.publication_date.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.physical_location.label}} {{form.physical_location}} {% for message
+      in form.physical_location.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.price.label}} {{form.price}} {% for message in form.price.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.isbn.label}} {{form.isbn}} {% for message in form.isbn.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.authors.label}} {{form.authors}} {% for message in
+      form.authors.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.genres.label}} {{form.genres}} {% for message in
+      form.genres.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}

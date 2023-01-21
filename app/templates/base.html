@@ -4,89 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/form.css') }}"
+    />
     <title>{%block title%} {%endblock%}</title>
   </head>
   <body style="display: flex; margin: 0; padding: 0">
-    <nav
-      style="
-        display: flex;
-        height: 98%;
-        flex-direction: column;
-        border-style: solid;
-        margin: 0;
-        padding: 0.5rem;
-        position: fixed;
-        overflow-y: auto;
-        white-space: nowrap;
-      "
-    >
-      <a
-        style="margin: 0 auto; padding: 0; text-decoration: none"
-        href="/member/register"
-        >Zarejestruj Członka</a
-      >
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
-      <a>sdfsdf</a>
+    <nav>
+      <a href="/member/register">Zarejestruj członka</a>
+      <a href="/librarian/register">Zarejestruj pracownika</a>
+      <a href="/book/add">Dodaj książkę</a>
+      <a href="/book/author/add">Dodaj autora</a>
     </nav>
-    <main style="margin: 0 auto">{%block main%} {%endblock%}</main>
+    <div style="margin: 0 auto; display: flex; flex-direction: column">
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul class="flashes" style=>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+      <main style="margin: 0 auto">{%block main%} {%endblock%}</main>
+    </div>
   </body>
 </html>
+
+<!--
+
+
+-->
