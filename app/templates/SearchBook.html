@@ -1,0 +1,51 @@
+{%extends 'base.html'%} {% block title %} Wyszukaj książkę{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/book/search" method="post">
+  <fieldset>
+    <legend>Wyszukaj książkę</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.title.label}} {{form.title}} {% for message in form.title.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.author_first_name.label}} {{form.author_first_name}} {% for message
+      in form.author_first_name.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.author_last_name.label}} {{form.author_last_name}} {% for message
+      in form.author_last_name.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.genre.label}} {{form.genre}} {% for message in form.genre.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    {{form.submit}}
+  </fieldset>
+</form>
+{% if books %}
+<table>
+  <thead>
+    <tr>
+      {%for k in books[0].keys()%}
+      <th>{{k}}</th>
+      {%endfor%}
+    </tr>
+  </thead>
+  <tbody>
+    {%for book in books%}
+    <tr>
+      {%for v in book.values()%}
+      <td>{{v}}</td>
+      {%endfor%}
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{%endif%} {%endblock%}

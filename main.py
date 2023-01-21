@@ -6,6 +6,8 @@ from app.forms.RegisterMemberForm import RegisterMemberForm
 from app.forms.RegisterLibrarianForm import RegisterLibrarianForm
 from app.forms.AddBookForm import AddBookForm
 from app.forms.AddAuthorForm import AddAuthorForm
+from app.forms.AddBookGenreForm import AddBookGenreForm
+from app.forms.SearchBookForm import SearchBookForm 
 
 
 from app.models.PersonModel import PersonModel
@@ -34,10 +36,9 @@ def registerMember():
         if form.validate():
                 try:
                     res = Person.registerMember(form.data)
-                    print(res)
                     return redirect(url_for("showMember", id=res["id"]))
 
-                except Exception as e:
+                except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
                     print(e)
         else:
@@ -48,13 +49,13 @@ def registerMember():
 def showMember(id):
     id = request.view_args["id"]
     record = Person.getMemberById(id)
-    return render_template("ShowDbEntry.html", record = dumpJson(record))
+    return render_template("ShowDbEntry.html", record = record)
 
 @app.route("/member/all", methods=["GET"])
 def showAllMembers():
     records = Person.getAllMembers()
-    records = [dumpJson(record) for record in records]
     return render_template("ShowDbEntries.html", records=records)
+
 
 
 
@@ -66,7 +67,7 @@ def registerLibrarian():
                 try:
                     res = Person.registerLibrarian(form.data)
                     return redirect(url_for("showLibrarian", id=res["id"]))
-                except Exception as e:
+                except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
                     print(e)
         else:
@@ -78,31 +79,69 @@ def registerLibrarian():
 def showLibrarian(id):
     id = request.view_args["id"]
     record = Person.getLibrarianById(id)
-    return render_template("ShowDbEntry.html", record = dumpJson(record) )
+    return render_template("ShowDbEntry.html", record = record )
 
 @app.route("/librarian/all", methods=["GET"])
 def showAllLibrarians():
     records = Person.getAllLibrarians()
-    records = [dumpJson(record) for record in records]
     return render_template("ShowDbEntries.html", records=records)
+
 
 
 
 @app.route("/book/add", methods=["GET", "POST"])
 def addBook():
+    authors = [(author["id"], author["first_name"] 
+                            + " " + author["last_name"] 
+                            + " - " + author["nationality"]) for author in Book.getAllAuthors()]
+    genres = [(genre["id"], genre["name"] ) for genre in Book.getAllGenres()]
     form = AddBookForm() 
+    form.authors.choices = authors
+    form.genres.choices = genres
+    if request.method == "POST": 
+        print(form.data)
+        if form.validate():
+                try:
+                    res = Book.addBook(form.data)
+                    return redirect(url_for("showBook", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print("blad:", e.with_traceback())
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+
+    return render_template("AddBook.html", form = form)
+
+@app.route("/book/<id>", methods=["GET"])
+def showBook(id):
+    id = request.view_args["id"]
+    record = Book.getBookById(id)
+    return render_template("ShowDbEntry.html", record = record )
+
+@app.route("/book/all", methods=["GET"])
+def showAllBooks():
+    records = Book.getAllBooks()
+    return render_template("ShowDbEntries.html", records=records)
+
+@app.route("/book/search", methods=["GET", "POST"])
+def searchBook():
+    form = SearchBookForm() 
     if request.method == "POST": 
         if form.validate():
                 try:
-                    res = Book.addBook()
-                    # return redirect(url_for("showLibrarian", id=res["id"]))
-                except Exception as e:
+                    books = Book.searchBook(form.data)
+                    print(books)
+                    return render_template("SearchBook.html", form = form, books=books)
+                except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
                     print(e)
         else:
             flash("Wprowadzono nieprawidłowe dane!")
 
-    return render_template("AddBook.html", form = form)
+    return render_template("SearchBook.html", form = form)
+
+
+
 
 @app.route("/book/author/add", methods=["GET", "POST"])
 def addAuthor():
@@ -112,7 +151,7 @@ def addAuthor():
                 try:
                     res = Book.addAuthor(form.data)
                     return redirect(url_for("showAuthor", id=res["id"]))
-                except Exception as e:
+                except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
                     print(e)
         else:
@@ -124,8 +163,42 @@ def addAuthor():
 def showAuthor(id):
     id = request.view_args["id"]
     record = Book.getAuthorById(id)
-    return render_template("ShowDbEntry.html", record = dumpJson(record) )
+    return render_template("ShowDbEntry.html", record = record )
 
+@app.route("/book/author/all", methods=["GET"])
+def showAllAuthors():
+    records = Book.getAllAuthors()
+    return render_template("ShowDbEntries.html", records=records)
+
+
+
+
+
+@app.route("/book/genre/add", methods=["GET", "POST"])
+def addBookGenre():
+    form = AddBookGenreForm() 
+    if request.method == "POST": 
+        if form.validate():
+                try:
+                    res = Book.addGenre(form.data)
+                    return redirect(url_for("showBookGenre", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print(e)
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+    return render_template("AddBookGenre.html", form = form)
+
+@app.route("/book/genre/<id>", methods=["GET"])
+def showBookGenre(id):
+    id = request.view_args["id"]
+    record = Book.getGenreById(id)
+    return render_template("ShowDbEntry.html", record = record )
+
+@app.route("/book/genre/all", methods=["GET"])
+def showAllGenres():
+    records = Book.getAllGenres()
+    return render_template("ShowDbEntries.html", records=records)
 
 if __name__ == "__main__":
     app.run(debug=True)

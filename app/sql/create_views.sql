@@ -34,3 +34,15 @@ select libr.id as id
          from library.librarian libr 
 inner join library.person per on per.id = libr.id_person
 inner join library.address addr on addr.id_person = per.id;
+
+create or replace view library.authors_of_book as
+select bk.id as id_book, a.id as id_author, a.first_name, a.last_name, a.nationality from library.book bk
+inner join library.book_author ba on ba.id_book = bk.id
+inner join library.author a on a.id = ba.id_author;
+
+create or replace view library.genres_of_book as
+select bk.id as id_book, g.id as id_genre, g.name from library.book bk
+inner join library.book_genre bg on bg.id_book = bk.id
+inner join library.genre g on g.id = bg.id_genre;
+
+

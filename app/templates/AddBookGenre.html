@@ -1,0 +1,15 @@
+{%extends 'base.html'%} {% block title %} Dodaj gatunek{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/book/genre/add" method="post">
+  <fieldset>
+    <legend>Dodaj gatunek</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.name.label}} {{form.name}} {% for message in form.name.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}

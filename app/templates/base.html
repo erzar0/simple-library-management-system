@@ -14,16 +14,38 @@
       type="text/css"
       href="{{ url_for('static',filename='styles/form.css') }}"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/table.css') }}"
+    />
     <title>{%block title%} {%endblock%}</title>
   </head>
   <body style="display: flex; margin: 0; padding: 0">
     <nav>
+      <h3>System Zarządzania Biblioteką</h3>
+      <div class="href-section">
       <a href="/member/register">Zarejestruj członka</a>
       <a href="/librarian/register">Zarejestruj pracownika</a>
       <a href="/book/add">Dodaj książkę</a>
       <a href="/book/author/add">Dodaj autora</a>
+      <a href="/book/genre/add">Dodaj gatunek</a>
+      </div>
+
+      <div class="href-section">
+      <a href="/member/all">Lista członków</a>
+      <a href="/librarian/all">Lista pracowników</a>
+      <a href="/book/all">Lista książek</a>
+      <a href="/book/author/all">Lista autorów</a>
+      <a href="/book/genre/all">Lista gatunków</a>
+      </div>
+
+      <div class="href-section">
+      <a href="/book/search">Wyszukaj książkę</a>
+      <a href="/loan">Wypożycz książkę</a>
+      </div>
     </nav>
-    <div style="margin: 0 auto; display: flex; flex-direction: column">
+    <div id="main-container" >
       {% with messages = get_flashed_messages() %} {% if messages %}
       <ul class="flashes" style=>
         {% for message in messages %}
@@ -31,7 +53,7 @@
         {% endfor %}
       </ul>
       {% endif %} {% endwith %}
-      <main style="margin: 0 auto">{%block main%} {%endblock%}</main>
+      <main >{%block main%} {%endblock%}</main>
     </div>
   </body>
 </html>

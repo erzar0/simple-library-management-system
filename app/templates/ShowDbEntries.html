@@ -1,4 +1,20 @@
 {%extends 'base.html'%} {% block title %} Rekordy {%endblock%} {% block main%}
-{%for record in records%}
-<pre>{{record}}</pre>
-{%endfor%} {%endblock%}
+<table>
+  <thead>
+    <tr>
+      {%for k in records[0].keys()%}
+      <th>{{k}}</th>
+      {%endfor%}
+    </tr>
+  </thead>
+  <tbody>
+    {%for record in records%}
+    <tr>
+      {%for v in record.values()%}
+      <td>{{v}}</td>
+      {%endfor%}
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{%endblock%}
