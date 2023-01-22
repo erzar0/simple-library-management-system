@@ -1,4 +1,5 @@
 {%extends 'base.html'%} {% block title %} Rekord {%endblock%} {% block main%}
+{%if record%}
 <table>
   <thead>
     <tr>
@@ -15,4 +16,4 @@
     </tr>
   </tbody>
 </table>
-{%endblock%}
+{%endif%} {%endblock%}

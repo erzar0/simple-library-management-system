@@ -8,12 +8,13 @@ from app.forms.AddBookForm import AddBookForm
 from app.forms.AddAuthorForm import AddAuthorForm
 from app.forms.AddBookGenreForm import AddBookGenreForm
 from app.forms.SearchBookForm import SearchBookForm 
+from app.forms.LoanBookForm import LoanBookForm 
+from app.forms.ImposePaymentForm import ImposePaymentForm
 
 
 from app.models.PersonModel import PersonModel
 from app.models.BookModel import BookModel 
-def dumpJson(dict):
-    return json.dumps(dict, indent=2, default=str, ensure_ascii=False)
+from app.models.FunctionalityModel import FunctionalityModel
 
 
 
@@ -23,6 +24,7 @@ app.static_folder = "app/static"
 
 Person = PersonModel()
 Book = BookModel()
+Functionality = FunctionalityModel() 
 
 @app.route("/")
 def index():
@@ -89,7 +91,7 @@ def showAllLibrarians():
 
 
 
-@app.route("/book/add", methods=["GET", "POST"])
+@app.route("/book", methods=["GET", "POST"])
 def addBook():
     authors = [(author["id"], author["first_name"] 
                             + " " + author["last_name"] 
@@ -130,7 +132,6 @@ def searchBook():
         if form.validate():
                 try:
                     books = Book.searchBook(form.data)
-                    print(books)
                     return render_template("SearchBook.html", form = form, books=books)
                 except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
@@ -143,7 +144,7 @@ def searchBook():
 
 
 
-@app.route("/book/author/add", methods=["GET", "POST"])
+@app.route("/book/author", methods=["GET", "POST"])
 def addAuthor():
     form = AddAuthorForm() 
     if request.method == "POST": 
@@ -174,7 +175,7 @@ def showAllAuthors():
 
 
 
-@app.route("/book/genre/add", methods=["GET", "POST"])
+@app.route("/book/genre", methods=["GET", "POST"])
 def addBookGenre():
     form = AddBookGenreForm() 
     if request.method == "POST": 
@@ -199,6 +200,73 @@ def showBookGenre(id):
 def showAllGenres():
     records = Book.getAllGenres()
     return render_template("ShowDbEntries.html", records=records)
+
+
+@app.route("/loan/", methods=["GET", "POST"])
+def loanBook():
+    form = LoanBookForm()
+    if request.method == "POST": 
+        if form.validate():
+            print(form.data)
+            if not Functionality.isBookLent(form.data["id_book"]):
+                try:
+                    loanData = {k: v for k,v in form.data.items()}
+                    loanData["loan_date"] = date.today()
+                    loanData["due_date"] = date.today() + timedelta(days=30)
+                    res = Functionality.loanBook(loanData)
+                    return redirect(url_for("showLoan", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print(e)
+            else:
+                flash("Książka jest już wypożyczona!")
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+    return render_template("LoanBook.html", form = form)
+
+@app.route("/loan/<id>", methods=["GET"])
+def showLoan(id):
+    id = request.view_args["id"]
+    record = Functionality.getLoanById(id)
+    return render_template("ShowDbEntry.html", record = record )
+
+@app.route("/loan/all", methods=["GET"])
+def showAllLoans():
+    records = Functionality.getAllLoans()
+    return render_template("ShowDbEntries.html", records=records)
+
+
+
+
+@app.route("/payment/", methods=["GET", "POST"])
+def imposePayment():
+    form = ImposePaymentForm()
+    if request.method == "POST": 
+        if form.validate():
+                try:
+                    res = Functionality.imposePayment(form.data)
+                    print(res)
+                    return redirect(url_for("showPayment", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print(e)
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+    return render_template("ImposePayment.html", form = form)
+
+@app.route("/payment/<id>", methods=["GET"])
+def showPayment(id):
+    id = request.view_args["id"]
+    record = Functionality.getPaymentById(id)
+    return render_template("ShowDbEntry.html", record = record )
+
+@app.route("/payment/all", methods=["GET"])
+def showAllPayments():
+    records = Functionality.getAllPayments()
+    print(records)
+    return render_template("ShowDbEntries.html", records=records)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

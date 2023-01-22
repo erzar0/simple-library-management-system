@@ -70,6 +70,7 @@ class BookModel(BaseModel):
 
                 get_books = """select * from library.book 
                                 where id = any(%s)"""
+
                 return cur.execute(get_books, book_ids).fetchall()
 
 

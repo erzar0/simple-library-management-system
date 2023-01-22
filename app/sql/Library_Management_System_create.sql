@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-01-19 11:52:06.571
+-- Last modification date: 2023-01-22 17:48:30.794
 
 -- tables
 -- Table: address
@@ -72,8 +72,8 @@ CREATE TABLE library.loan (
     id_member int  NOT NULL,
     id_librarian int  NOT NULL,
     loan_date date  NOT NULL,
-    return_date date  NULL,
     due_date date  NOT NULL,
+    return_date date  NULL,
     CONSTRAINT loan_pk PRIMARY KEY (id)
 );
 
@@ -92,9 +92,9 @@ CREATE TABLE library.payment (
     id_member int  NOT NULL,
     id_librarian int  NOT NULL,
     type varchar(255)  NOT NULL,
-    issue_date date  NOT NULL,
     to_pay int  NOT NULL,
-    is_paid boolean  NOT NULL DEFAULT false,
+    issue_date date  NOT NULL,
+    payment_date date  NULL,
     CONSTRAINT payment_pk PRIMARY KEY (id)
 );
 

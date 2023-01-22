@@ -72,7 +72,7 @@ class PersonModel(BaseModel):
     def getAllLibrarians(self):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
-                sql = """select * from library.member_all_data"""
+                sql = """select * from library.librarian_all_data"""
                 return cur.execute(sql).fetchall()
     
     def getLibrarianById(self, id):

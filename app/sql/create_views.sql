@@ -45,4 +45,8 @@ select bk.id as id_book, g.id as id_genre, g.name from library.book bk
 inner join library.book_genre bg on bg.id_book = bk.id
 inner join library.genre g on g.id = bg.id_genre;
 
+create or replace view library.lent_books as
+select * from library.book
+where id in (select id_book from library.loan where return_date is null)
+
 

@@ -27,9 +27,12 @@
       <div class="href-section">
       <a href="/member/register">Zarejestruj członka</a>
       <a href="/librarian/register">Zarejestruj pracownika</a>
-      <a href="/book/add">Dodaj książkę</a>
-      <a href="/book/author/add">Dodaj autora</a>
-      <a href="/book/genre/add">Dodaj gatunek</a>
+      <a href="/book">Dodaj książkę</a>
+      <a href="/book/author">Dodaj autora</a>
+      <a href="/book/genre">Dodaj gatunek</a>
+      <a href="/book/search">Wyszukaj książkę</a>
+      <a href="/loan">Wypożycz książkę</a>
+      <a href="/payment/">Nałóż opłatę</a>
       </div>
 
       <div class="href-section">
@@ -38,12 +41,10 @@
       <a href="/book/all">Lista książek</a>
       <a href="/book/author/all">Lista autorów</a>
       <a href="/book/genre/all">Lista gatunków</a>
+      <a href="/loan/all">Lista wypożyczeń</a>
+      <a href="/payment/all">Lista opłat</a>
       </div>
 
-      <div class="href-section">
-      <a href="/book/search">Wyszukaj książkę</a>
-      <a href="/loan">Wypożycz książkę</a>
-      </div>
     </nav>
     <div id="main-container" >
       {% with messages = get_flashed_messages() %} {% if messages %}

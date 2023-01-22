@@ -39,7 +39,7 @@ main%}
     </tr>
   </thead>
   <tbody>
-    {%for book in books%}
+    {%for book in books[:100]%}
     <tr>
       {%for v in book.values()%}
       <td>{{v}}</td>

@@ -1,0 +1,29 @@
+{%extends 'base.html'%} {% block title %}Wypożycz książkę{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/loan" method="post">
+  <fieldset>
+    <legend>Wypożycz książkę</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.id_book.label}} {{form.id_book}} {% for message in
+      form.id_book.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.id_member.label}} {{form.id_member}} {% for message in
+      form.id_member.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.id_librarian.label}} {{form.id_librarian}} {% for message in
+      form.id_librarian.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}
