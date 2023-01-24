@@ -12,8 +12,8 @@ class AddBookForm(FlaskForm):
     price               = IntegerField("Cena katalogowa*",       [validators.input_required()])
     isbn                = StringField("ISBN",                    [validators.optional()
                                                                  ,validators.length(13, 13)])
-    authors             = SelectMultipleField("Autorzy*",        [validators.input_required()]
+    authors             = SelectMultipleField("Autorzy* (przytrzymaj ctrl by zaznaczyć wiele)",        [validators.input_required()]
                                                                  ,validate_choice=False) 
-    genres              = SelectMultipleField("Gatunki*",        [validators.input_required()]
+    genres              = SelectMultipleField("Gatunki* (przytrzymaj ctrl by zaznaczyć wiele)",        [validators.input_required()]
                                                                  ,validate_choice=False) 
     submit          = SubmitField("Dodaj")

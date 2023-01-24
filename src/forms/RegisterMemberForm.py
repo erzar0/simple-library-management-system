@@ -9,7 +9,7 @@ class RegisterMemberForm(FlaskForm):
                                                         , validators.email()])
     birth_date      = DateField("Data urodzenia*",       [validators.input_required()])
     pesel           = IntegerField("Pesel*",             [validators.input_required()
-                                                        ,validators.number_range(min = 10000000000, max=999999999999)], default=10e10) 
+                                                        ,validators.NumberRange(min = 10000000000,max=99999999999)]) 
     city            = StringField("Miasto*",             [validators.input_required()])
     street          = StringField("Ulica*",              [validators.input_required()])
     postal_code     = StringField("Kod pocztowy*",       [validators.input_required()])

@@ -2,25 +2,26 @@ from flask import Flask, request, flash, render_template, redirect, url_for
 from datetime import date, timedelta
 import json
 
-from app.forms.RegisterMemberForm import RegisterMemberForm
-from app.forms.RegisterLibrarianForm import RegisterLibrarianForm
-from app.forms.AddBookForm import AddBookForm
-from app.forms.AddAuthorForm import AddAuthorForm
-from app.forms.AddBookGenreForm import AddBookGenreForm
-from app.forms.SearchBookForm import SearchBookForm 
-from app.forms.LoanBookForm import LoanBookForm 
-from app.forms.ImposePaymentForm import ImposePaymentForm
+from src.forms.RegisterMemberForm import RegisterMemberForm
+from src.forms.RegisterLibrarianForm import RegisterLibrarianForm
+from src.forms.AddBookForm import AddBookForm
+from src.forms.AddAuthorForm import AddAuthorForm
+from src.forms.AddBookGenreForm import AddBookGenreForm
+from src.forms.SearchBookForm import SearchBookForm 
+from src.forms.LoanBookForm import LoanBookForm 
+from src.forms.ImposePaymentForm import ImposePaymentForm
+from src.forms.ReturnBookForm import ReturnBookForm
 
 
-from app.models.PersonModel import PersonModel
-from app.models.BookModel import BookModel 
-from app.models.FunctionalityModel import FunctionalityModel
+from src.models.PersonModel import PersonModel
+from src.models.BookModel import BookModel 
+from src.models.FunctionalityModel import FunctionalityModel
 
 
 
-app = Flask(__name__, template_folder="app/templates")
-app.secret_key = "devvvvv"
-app.static_folder = "app/static"
+app = Flask(__name__, template_folder="src/templates")
+app.secret_key = "parmegiano"
+app.static_folder = "src/static"
 
 Person = PersonModel()
 Book = BookModel()
@@ -234,6 +235,22 @@ def showLoan(id):
 def showAllLoans():
     records = Functionality.getAllLoans()
     return render_template("ShowDbEntries.html", records=records)
+
+@app.route("/loan/return", methods=["GET", "POST"])
+def returnBook():
+    form = ReturnBookForm()
+    if request.method == "POST": 
+        if form.validate():
+                try:
+                    res = Functionality.returnBook(form.data)
+                    print(res)
+                    return redirect(url_for("showLoan", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print(e)
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+    return render_template("ReturnBook.html", form = form)
 
 
 

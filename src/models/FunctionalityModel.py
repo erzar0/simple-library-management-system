@@ -39,6 +39,20 @@ class FunctionalityModel(BaseModel):
 
 
 
+    def returnBook(self, returnData):
+        with connect(self.connStr, row_factory=dict_row) as conn:
+            with conn.cursor() as cur:
+                sql = """update library.loan set return_date = current_date
+                            where id_book = %(id_book)s 
+                            and id_member = %(id_member)s
+                            and return_date is null 
+                            returning library.loan.id"""
+                return cur.execute(sql, returnData).fetchone()
+                
+                
+
+
+
     def imposePayment(self, paymentData):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:

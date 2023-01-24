@@ -1,0 +1,23 @@
+{%extends 'base.html'%} {% block title %}Zwróć książkę{%endblock%} {% block
+main%}
+<form action="http://localhost:5000/loan/return" method="post">
+  <fieldset>
+    <legend>Zwróć książkę</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.id_book.label}} {{form.id_book}} {% for message in
+      form.id_book.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.id_member.label}} {{form.id_member}} {% for message in
+      form.id_member.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}
