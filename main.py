@@ -11,6 +11,7 @@ from src.forms.SearchBookForm import SearchBookForm
 from src.forms.LoanBookForm import LoanBookForm 
 from src.forms.ImposePaymentForm import ImposePaymentForm
 from src.forms.ReturnBookForm import ReturnBookForm
+from src.forms.PayFeeForm import PayFeeForm
 
 
 from src.models.PersonModel import PersonModel
@@ -208,8 +209,11 @@ def loanBook():
     form = LoanBookForm()
     if request.method == "POST": 
         if form.validate():
-            print(form.data)
-            if not Functionality.isBookLent(form.data["id_book"]):
+            if Person.hasFeesToPay(form.data["id_member"]):
+                flash("Masz opłaty do zapłacenia gagatku!")
+            elif Functionality.isBookLent(form.data["id_book"]):
+                flash("Książka jest już wypożyczona!")
+            else:
                 try:
                     loanData = {k: v for k,v in form.data.items()}
                     loanData["loan_date"] = date.today()
@@ -219,8 +223,6 @@ def loanBook():
                 except BaseException as e:
                     flash("Wystąpił błąd bazy danych!")
                     print(e)
-            else:
-                flash("Książka jest już wypożyczona!")
         else:
             flash("Wprowadzono nieprawidłowe dane!")
     return render_template("LoanBook.html", form = form)
@@ -283,7 +285,21 @@ def showAllPayments():
     print(records)
     return render_template("ShowDbEntries.html", records=records)
 
+@app.route("/payment/pay", methods=["GET", "POST"])
+def payFee():
+    form = PayFeeForm()
+    if request.method == "POST": 
+        if form.validate():
+                try:
+                    res = Functionality.payFee(form.data)
+                    return redirect(url_for("showPayment", id=res["id"]))
+                except BaseException as e:
+                    flash("Wystąpił błąd bazy danych!")
+                    print(e)
+        else:
+            flash("Wprowadzono nieprawidłowe dane!")
+    return render_template("PayFee.html", form = form)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

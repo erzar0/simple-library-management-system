@@ -1,219 +1,189 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-01-22 17:48:30.794
-
--- tables
--- Table: address
-CREATE TABLE library.address (
-    id_person int  NOT NULL,
-    city varchar(255)  NOT NULL,
-    postal_code varchar(255)  NOT NULL,
-    street varchar(255)  NOT NULL,
-    house_number int  NOT NULL,
-    apartment_number int  NULL,
-    CONSTRAINT address_pk PRIMARY KEY (id_person)
+create table library.address (
+    id_person int  not null,
+    city varchar(255)  not null,
+    postal_code varchar(255)  not null,
+    street varchar(255)  not null,
+    house_number int  not null,
+    apartment_number int  null,
+    constraint address_pk primary key (id_person)
 );
 
--- Table: author
-CREATE TABLE library.author (
-    id serial  NOT NULL,
-    first_name varchar(255)  NOT NULL,
-    last_name varchar(255)  NULL,
-    nationality varchar(255)  NULL,
-    CONSTRAINT author_pk PRIMARY KEY (id)
+create table library.author (
+    id serial  not null,
+    first_name varchar(255)  not null,
+    last_name varchar(255)  null,
+    nationality varchar(255)  null,
+    constraint author_pk primary key (id)
 );
 
--- Table: book
-CREATE TABLE library.book (
-    id serial  NOT NULL,
-    isbn varchar(13)  NULL,
-    title varchar(255)  NOT NULL,
-    language varchar(255)  NOT NULL,
-    publication_date date  NOT NULL,
-    physical_location varchar(255)  NOT NULL,
-    price int  NOT NULL,
-    CONSTRAINT id PRIMARY KEY (id)
+create table library.book (
+    id serial  not null,
+    isbn varchar(13)  null,
+    title varchar(255)  not null,
+    language varchar(255)  not null,
+    publication_date date  not null,
+    physical_location varchar(255)  not null,
+    price int  not null,
+    constraint id primary key (id)
 );
 
--- Table: book_author
-CREATE TABLE library.book_author (
-    id_author int  NOT NULL,
-    id_book int  NOT NULL,
-    CONSTRAINT book_author_pk PRIMARY KEY (id_author,id_book)
+create table library.book_author (
+    id_author int  not null,
+    id_book int  not null,
+    constraint book_author_pk primary key (id_author,id_book)
 );
 
--- Table: book_genre
-CREATE TABLE library.book_genre (
-    id_book int  NOT NULL,
-    id_genre int  NOT NULL,
-    CONSTRAINT book_genre_pk PRIMARY KEY (id_book,id_genre)
+create table library.book_genre (
+    id_book int  not null,
+    id_genre int  not null,
+    constraint book_genre_pk primary key (id_book,id_genre)
 );
 
--- Table: genre
-CREATE TABLE library.genre (
-    id serial  NOT NULL,
-    name varchar(255)  NOT NULL,
-    CONSTRAINT genre_pk PRIMARY KEY (id)
+create table library.genre (
+    id serial  not null,
+    name varchar(255)  not null,
+    constraint genre_pk primary key (id)
 );
 
--- Table: librarian
-CREATE TABLE library.librarian (
-    id serial  NOT NULL,
-    id_person int  NOT NULL,
-    id_supervisor int  NULL,
-    salary int  NOT NULL,
-    job_position varchar(255)  NOT NULL,
-    CONSTRAINT librarian_pk PRIMARY KEY (id)
+create table library.librarian (
+    id serial  not null,
+    id_person int  not null,
+    id_supervisor int  null,
+    salary int  not null,
+    job_position varchar(255)  not null,
+    constraint librarian_pk primary key (id)
 );
 
--- Table: loan
-CREATE TABLE library.loan (
-    id bigserial  NOT NULL,
-    id_book int  NOT NULL,
-    id_member int  NOT NULL,
-    id_librarian int  NOT NULL,
-    loan_date date  NOT NULL,
-    due_date date  NOT NULL,
-    return_date date  NULL,
-    CONSTRAINT loan_pk PRIMARY KEY (id)
+create table library.loan (
+    id bigserial  not null,
+    id_book int  not null,
+    id_member int  not null,
+    id_librarian int  not null,
+    loan_date date  not null,
+    due_date date  not null,
+    return_date date  null,
+    constraint loan_pk primary key (id)
 );
 
--- Table: member
-CREATE TABLE library.member (
-    id serial  NOT NULL,
-    id_person int  NOT NULL,
-    join_date date  NOT NULL,
-    expiration_date date  NOT NULL,
-    CONSTRAINT member_pk PRIMARY KEY (id)
+create table library.member (
+    id serial  not null,
+    id_person int  not null,
+    join_date date  not null,
+    expiration_date date  not null,
+    constraint member_pk primary key (id)
 );
 
--- Table: payment
-CREATE TABLE library.payment (
-    id serial  NOT NULL,
-    id_member int  NOT NULL,
-    id_librarian int  NOT NULL,
-    type varchar(255)  NOT NULL,
-    to_pay int  NOT NULL,
-    issue_date date  NOT NULL,
-    payment_date date  NULL,
-    CONSTRAINT payment_pk PRIMARY KEY (id)
+create table library.payment (
+    id serial  not null,
+    id_member int  not null,
+    id_librarian int  not null,
+    type varchar(255)  not null,
+    to_pay int  not null,
+    issue_date date  not null,
+    payment_date date  null,
+    constraint payment_pk primary key (id)
 );
 
--- Table: person
-CREATE TABLE library.person (
-    id serial  NOT NULL,
-    first_name varchar(255)  NOT NULL,
-    last_name varchar(255)  NOT NULL,
-    pesel bigint  NOT NULL CHECK (pesel > 9999999999 and pesel < 100000000000 ),
-    birth_date date  NOT NULL,
-    email varchar(255)  NOT NULL,
-    CONSTRAINT pesel UNIQUE (pesel) NOT DEFERRABLE  INITIALLY IMMEDIATE,
-    CONSTRAINT person_pk PRIMARY KEY (id)
+create table library.person (
+    id serial  not null,
+    first_name varchar(255)  not null,
+    last_name varchar(255)  not null,
+    pesel bigint  not null check (pesel > 9999999999 and pesel < 100000000000 ),
+    birth_date date  not null,
+    email varchar(255)  not null,
+    constraint pesel unique (pesel) not deferrable  initially immediate,
+    constraint person_pk primary key (id)
 );
 
--- foreign keys
--- Reference: address__person (table: address)
-ALTER TABLE library.address ADD CONSTRAINT address__person
-    FOREIGN KEY (id_person)
-    REFERENCES library.person (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.address add constraint address__person
+    foreign key (id_person)
+    references library.person (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: book_author__author (table: book_author)
-ALTER TABLE library.book_author ADD CONSTRAINT book_author__author
-    FOREIGN KEY (id_author)
-    REFERENCES library.author (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.book_author add constraint book_author__author
+    foreign key (id_author)
+    references library.author (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: book_author__book (table: book_author)
-ALTER TABLE library.book_author ADD CONSTRAINT book_author__book
-    FOREIGN KEY (id_book)
-    REFERENCES library.book (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.book_author add constraint book_author__book
+    foreign key (id_book)
+    references library.book (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: book_genre__book (table: book_genre)
-ALTER TABLE library.book_genre ADD CONSTRAINT book_genre__book
-    FOREIGN KEY (id_book)
-    REFERENCES library.book (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.book_genre add constraint book_genre__book
+    foreign key (id_book)
+    references library.book (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: book_genre__genre (table: book_genre)
-ALTER TABLE library.book_genre ADD CONSTRAINT book_genre__genre
-    FOREIGN KEY (id_genre)
-    REFERENCES library.genre (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.book_genre add constraint book_genre__genre
+    foreign key (id_genre)
+    references library.genre (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: librarian__librarian (table: librarian)
-ALTER TABLE library.librarian ADD CONSTRAINT librarian__librarian
-    FOREIGN KEY (id_supervisor)
-    REFERENCES library.librarian (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.librarian add constraint librarian__librarian
+    foreign key (id_supervisor)
+    references library.librarian (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: librarian__person (table: librarian)
-ALTER TABLE library.librarian ADD CONSTRAINT librarian__person
-    FOREIGN KEY (id_person)
-    REFERENCES library.person (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.librarian add constraint librarian__person
+    foreign key (id_person)
+    references library.person (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: loan__book (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT loan__book
-    FOREIGN KEY (id_book)
-    REFERENCES library.book (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.loan add constraint loan__book
+    foreign key (id_book)
+    references library.book (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: loan__librarian (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT loan__librarian
-    FOREIGN KEY (id_librarian)
-    REFERENCES library.librarian (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.loan add constraint loan__librarian
+    foreign key (id_librarian)
+    references library.librarian (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: loan__member (table: loan)
-ALTER TABLE library.loan ADD CONSTRAINT loan__member
-    FOREIGN KEY (id_member)
-    REFERENCES library.member (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.loan add constraint loan__member
+    foreign key (id_member)
+    references library.member (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: member__person (table: member)
-ALTER TABLE library.member ADD CONSTRAINT member__person
-    FOREIGN KEY (id_person)
-    REFERENCES library.person (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.member add constraint member__person
+    foreign key (id_person)
+    references library.person (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: payment__librarian (table: payment)
-ALTER TABLE library.payment ADD CONSTRAINT payment__librarian
-    FOREIGN KEY (id_librarian)
-    REFERENCES library.librarian (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.payment add constraint payment__librarian
+    foreign key (id_librarian)
+    references library.librarian (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- Reference: payment__member (table: payment)
-ALTER TABLE library.payment ADD CONSTRAINT payment__member
-    FOREIGN KEY (id_member)
-    REFERENCES library.member (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+alter table library.payment add constraint payment__member
+    foreign key (id_member)
+    references library.member (id)  
+    not deferrable 
+    initially immediate
 ;
 
--- End of file.
 

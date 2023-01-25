@@ -80,6 +80,16 @@ class PersonModel(BaseModel):
             with conn.cursor() as cur:
                 sql = """select * from library.librarian_all_data where id = %(id)s"""
                 return cur.execute(sql, {"id": id}).fetchone()
+    
+
+
+
+    def hasFeesToPay(self, id):
+        with connect(self.connStr, row_factory=dict_row) as conn:
+            with conn.cursor() as cur:
+                sql = """select * from library.member_with_fee
+                            where id = %(id)s"""
+                return False if cur.execute(sql, {"id": id}).fetchone() is None else True
 
 
 

@@ -1,0 +1,13 @@
+\i src/sql/1_create_schema.sql
+\i src/sql/2_create_tables.sql
+\i src/sql/3_create_views.sql
+\i src/sql/4_create_triggers.sql
+\i src/sql/mock/1_person.sql
+\i src/sql/mock/2_address.sql
+\i src/sql/mock/3_librarian.sql
+\i src/sql/mock/4_member.sql
+\i src/sql/mock/5_book.sql
+\i src/sql/mock/6_author.sql
+\i src/sql/mock/7_genre.sql
+\i src/sql/mock/8_book_author.sql
+\i src/sql/mock/9_book_genre.sql

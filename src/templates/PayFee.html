@@ -1,0 +1,21 @@
+{%extends 'base.html'%} {% block title %}Uiść opłatę{%endblock%} {% block main%}
+<form action="http://localhost:5000/payment/pay" method="post">
+  <fieldset>
+    <legend>Uiść opłatę</legend>
+    {{form.hidden_tag()}}
+    <div class="input-container">
+      {{form.id.label}} {{form.id}} {% for message in form.id.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+    <div class="input-container">
+      {{form.id_member.label}} {{form.id_member}} {% for message in
+      form.id_member.errors%}
+      <div class="validation-message">{{message}}</div>
+      {%endfor%}
+    </div>
+
+    {{form.submit}}
+  </fieldset>
+</form>
+{%endblock%}

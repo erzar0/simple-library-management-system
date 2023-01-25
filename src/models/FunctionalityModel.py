@@ -36,17 +36,16 @@ class FunctionalityModel(BaseModel):
                 sql = """select * from library.loan"""
                 return cur.execute(sql).fetchall()
 
-
-
-
     def returnBook(self, returnData):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
-                sql = """update library.loan set return_date = current_date
-                            where id_book = %(id_book)s 
-                            and id_member = %(id_member)s
-                            and return_date is null 
-                            returning library.loan.id"""
+                sql = """
+                        update library.loan set return_date = current_date
+                        where id_book = %(id_book)s 
+                        and id_member = %(id_member)s
+                        and return_date is null 
+                        returning library.loan.id
+                        """
                 return cur.execute(sql, returnData).fetchone()
                 
                 
@@ -77,6 +76,18 @@ class FunctionalityModel(BaseModel):
             with conn.cursor() as cur:
                 sql = """select * from library.payment"""
                 return cur.execute(sql).fetchall()
+
+    def payFee(self, paymentData):
+        with connect(self.connStr, row_factory=dict_row) as conn:
+            with conn.cursor() as cur:
+                sql = """
+                update library.payment set payment_date = current_date
+                where id = %(id)s
+                and id_member = %(id_member)s
+                and payment_date is null
+                returning id 
+                """
+                return cur.execute(sql, paymentData).fetchone()
         
 
     

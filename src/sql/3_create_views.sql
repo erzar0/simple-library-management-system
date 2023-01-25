@@ -56,4 +56,9 @@ select *, 'not lent' as loan_status from library.book bk
 where bk.id not in (select id from library.lent_book)
 order by id asc;
 
+create or replace view library.member_with_fee as 
+select * from library.member mem
+where mem.id in (select id_member from library.payment
+                where payment_date is null);
+
 
