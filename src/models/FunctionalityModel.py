@@ -27,7 +27,7 @@ class FunctionalityModel(BaseModel):
     def isBookLent(self, id):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
-                sql = """select * from library.lent_books where id = %(id)s"""
+                sql = """select * from library.lent_book where id = %(id)s"""
                 return True if cur.execute(sql, {"id": id}).fetchone() else False
 
     def getAllLoans(self):

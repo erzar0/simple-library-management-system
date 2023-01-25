@@ -37,13 +37,13 @@ class BookModel(BaseModel):
     def getAllBooks(self):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
-                sql = """select * from library.book"""
+                sql = """select * from library.book_with_loan_status"""
                 return cur.execute(sql).fetchall()
 
     def getBookById(self, id):
         with connect(self.connStr, row_factory=dict_row) as conn:
             with conn.cursor() as cur:
-                sql = """select * from library.book where id = %(id)s"""
+                sql = """select * from library.book_with_loan_status where id = %(id)s"""
                 return cur.execute(sql, {"id": id}).fetchone()
 
 
@@ -68,7 +68,7 @@ class BookModel(BaseModel):
 
                 book_ids = [[book["id"] for book in cur.execute(get_book_ids, searchFilters).fetchall()]]
 
-                get_books = """select * from library.book 
+                get_books = """select * from library.book_with_loan_status
                                 where id = any(%s)"""
 
                 return cur.execute(get_books, book_ids).fetchall()
